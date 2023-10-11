@@ -6,35 +6,38 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const bull = (
-	<Box
-		component="span"
-		sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-	>
-		•
-	</Box>
-);
+const padZero = (num) => {
+	return num < 10 ? ('0' + num) : num;
+}
 
-const card = (
-	<React.Fragment>
-		<CardContent>
-			<Typography variant="h5" component="div">
-				be{bull}nev{bull}o{bull}lent
-			</Typography>
-			<Typography color="text.secondary">
-				adjective
-			</Typography>
-		</CardContent>
-		<CardActions>
-			<Button size="small">Learn More</Button>
-		</CardActions>
-	</React.Fragment>
-);
+const formatDate = (date) => {
+	return padZero(date.getHours()) + ':' + date.getMinutes() + ' | ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+}
 
 export default function QuestionCard(props) {
+	const question = props.question;
+	const date = new Date(question.timestamp);
+	const dateString = formatDate(date);
+
 	return (
-		<Box sx={{ minWidth: 275 }}>
-			<Card variant="outlined">{card}</Card>
+		<Box sx={{ minWidth: 200 }}>
+			<Card variant="outlined">
+				<React.Fragment>
+					<CardContent>
+						<Typography variant="h5" component="div">
+							{question.author}
+						</Typography>
+						<Typography color="text.secondary">
+							{dateString}
+						</Typography>
+					</CardContent>
+					<CardActions>
+						<Box display="flex" justifyContent="center" width="100%">
+							<Button variant="outlined" color="success">Show</Button>
+						</Box>
+					</CardActions>
+				</React.Fragment>
+			</Card>
 		</Box>
 	);
 }

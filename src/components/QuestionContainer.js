@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-
+import QuestionCard from './QuestionCard';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -16,23 +16,24 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function QuestionContainer(props) {
 	const title = props.title;
-
-
+	const questions = props.questions;
+	const questionKeys = Object.keys(questions);
+	// const heightFact = questionKeys.length / 3 * 25;
 
 	return (
-		<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingTop="20px">
+		<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingTop="20px" width="100%">
 			<h2>{title}</h2>
-			<Box sx={{ flexGrow: 1, width: "80%", height: "20vh" }} display="flex" justifyContent="center" mt={2}>
-				<Grid container spacing={2} style={{ height: "20vh" }}> {/* 如果需要更大的间距，可以调整 spacing 的值 */}
-					{/* {questions && questionsKeys.map((key) => (
-						<Grid item key={key} xs={4}>
-							<Item>
-								<QuestionCard />
+			<Box mt={2} width="60vw" >
+				<Grid container spacing={4} > {/* 如果需要更大的间距，可以调整 spacing 的值 */}
+					{questions && questionKeys.map((key) => (
+						<Grid item="true" key={key} xs={4} >
+							<Item sx={{ minWidth: 200 }}>
+								<QuestionCard question={questions[key]} />
 							</Item>
 						</Grid>
-					))} */}
+					))}
 				</Grid>
 			</Box>
-		</Box>
+		</Box >
 	);
 }
