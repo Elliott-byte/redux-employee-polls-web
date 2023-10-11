@@ -1,4 +1,4 @@
-import { _getQuestions } from "../api/_DATA";
+import { _getQuestions, _saveQuestionAnswer } from "../api/_DATA";
 
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ANSWER_QUESTION = "ANSWER_QUESTION";
@@ -21,5 +21,24 @@ export function handleQuestions() {
 		).catch((e) => {
 			return Promise.reject("Questions load error.");
 		})
+	}
+}
+
+export function answerQuestion(questionId, option, authedId) {
+	return {
+		type: ANSWER_QUESTION,
+		questionId,
+		option,
+		authedId
+	}
+}
+
+export function handleAnswerQuestions(authedUser, qid, answer) {
+	return (dispatch) => {
+		_saveQuestionAnswer({ authedUser, qid, answer }).then(
+			() => {
+				dispatch(answerQuestion(qid, answer, authedUser));
+			}
+		).catch((e) => { return Promise.reject("Vote Error!") });
 	}
 }

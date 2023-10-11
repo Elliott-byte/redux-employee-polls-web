@@ -1,17 +1,15 @@
 import Navbar from "./Navbar";
 import QuestionContainer from "./QuestionContainer";
-import Box from '@mui/material/Box';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleQuestions } from '../actions/questions';
-import { Divider } from "@mui/material";
 
 const filterVotedQuestions = (questions, authedUser) => {
 	return Object.values(questions).filter((question) => question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser));
 }
 
 const filterUnvotedQuestions = (questions, authedUser) => {
-	return Object.values(questions).filter((question) => !question.optionOne.votes.includes(authedUser) && question.optionTwo.votes.includes(authedUser));
+	return Object.values(questions).filter((question) => !question.optionOne.votes.includes(authedUser) && !question.optionTwo.votes.includes(authedUser));
 }
 
 export default function Dashboard() {

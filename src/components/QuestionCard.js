@@ -5,6 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
 const padZero = (num) => {
 	return num < 10 ? ('0' + num) : num;
@@ -32,9 +33,13 @@ export default function QuestionCard(props) {
 						</Typography>
 					</CardContent>
 					<CardActions>
+
 						<Box display="flex" justifyContent="center" width="100%">
-							<Button variant="outlined" color="success">Show</Button>
+							<Link to={`/question/${question.id}`}>
+								<Button variant="outlined" color="success">Show</Button>
+							</Link>
 						</Box>
+		
 					</CardActions>
 				</React.Fragment>
 			</Card>
