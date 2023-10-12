@@ -12,7 +12,6 @@ const filterUnvotedQuestions = (questions, authedUser) => {
 }
 
 export default function Dashboard() {
-	//todo test non-auth dispatch to /
 
 	const authedUser = useSelector((state) => state.authedUser);
 	// const authedUser = "sarahedo";
