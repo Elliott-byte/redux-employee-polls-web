@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "./Navbar";
 import { useParams } from "react-router-dom";
 import { Fragment } from "react";
 import { Divider, Typography } from '@mui/material';
@@ -9,7 +8,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import { answerQuestion, handleAnswerQuestions } from "../actions/questions";
+import { handleAnswerQuestions } from "../actions/questions";
 
 const filterVotedStatus = (question, authedUser) => {
 	if (question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser))
@@ -35,7 +34,6 @@ export default function QuestionCard(props) {
 	}
 	return (
 		<Fragment>
-			<Navbar />
 			<div style={{ display: 'flex', justifyContent: 'center', marginTop: "20px" }}>
 				<Typography variant="h2">
 					{question.author}

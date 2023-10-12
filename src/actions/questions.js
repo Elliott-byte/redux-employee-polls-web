@@ -42,3 +42,9 @@ export function handleAnswerQuestions(authedUser, qid, answer) {
 		).catch((e) => { return Promise.reject("Vote Error!") });
 	}
 }
+
+export function addQuestion(authedUser, optionOne, optionTwo) {
+	return {
+		
+	}
+}

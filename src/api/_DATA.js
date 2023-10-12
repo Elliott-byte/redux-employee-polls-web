@@ -178,9 +178,6 @@ export function _saveQuestion(question) {
 }
 
 export function _saveQuestionAnswer({ authedUser, qid, answer }) {
-  console.log('save', authedUser, qid, answer);
-  console.log("Before Update - Users:", users);
-  console.log("Before Update - Questions:", questions);
   return new Promise((resolve, reject) => {
     if (!authedUser || !qid || !answer) {
       reject("Please provide authedUser, qid, and answer");
@@ -208,8 +205,6 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
           }
         }
       }
-      console.log("After Update - Users:", users);
-      console.log("After Update - Questions:", questions);
       resolve(true)
     }, 500)
   })

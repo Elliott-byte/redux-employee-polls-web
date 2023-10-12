@@ -30,7 +30,6 @@ export default function Dashboard() {
 
 	return (
 		<>
-			<Navbar />
 			<QuestionContainer title="New Questions" questions={pendingQuestions} />
 			{/* <Box display="flex" justifyContent="center" height="50vh"> */}
 			<QuestionContainer title="Done Questions" questions={finishedQuestions} />
