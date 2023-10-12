@@ -1,4 +1,3 @@
-import Navbar from "./Navbar";
 import QuestionContainer from "./QuestionContainer";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,8 +14,8 @@ const filterUnvotedQuestions = (questions, authedUser) => {
 export default function Dashboard() {
 	//todo test non-auth dispatch to /
 
-	// const authedUser = useSelector((state) => state.authedUser);
-	const authedUser = "sarahedo";
+	const authedUser = useSelector((state) => state.authedUser);
+	// const authedUser = "sarahedo";
 
 	const questions = useSelector((state) => state.questions);
 	const pendingQuestions = filterUnvotedQuestions(questions, authedUser);

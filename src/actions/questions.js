@@ -1,4 +1,4 @@
-import { _getQuestions, _saveQuestionAnswer } from "../api/_DATA";
+import { _getQuestions, _saveQuestion, _saveQuestionAnswer } from "../api/_DATA";
 
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ANSWER_QUESTION = "ANSWER_QUESTION";
@@ -38,13 +38,28 @@ export function handleAnswerQuestions(authedUser, qid, answer) {
 		_saveQuestionAnswer({ authedUser, qid, answer }).then(
 			() => {
 				dispatch(answerQuestion(qid, answer, authedUser));
+				return Promise.resolve();
 			}
-		).catch((e) => { return Promise.reject("Vote Error!") });
+		).catch((e) => { return Promise.reject(e) });
 	}
 }
 
-export function addQuestion(authedUser, optionOne, optionTwo) {
+export function addQuestion(question) {
 	return {
-		
+		type: ADD_QUESTION,
+		question
+	}
+}
+
+export function handleAddQuestion(optionOneText, optionTwoText, author) {
+	console.log(optionOneText, optionTwoText, author)
+	return (dispatch) => {
+		// const question = formatQuestion({ optionOneText, optionTwoText, author });
+		_saveQuestion({ optionOneText, optionTwoText, author }).then(
+			(question) => {
+				dispatch(addQuestion(question));
+				return Promise.resolve();
+			}
+		).catch((e) => { return Promise.reject(e) });
 	}
 }

@@ -18,13 +18,14 @@ const filterVotedStatus = (question, authedUser) => {
 
 export default function QuestionCard(props) {
 	const questions = useSelector((state) => state.questions);
+	const authedUser = useSelector((state) => state.authedUser);
+
 	const { id } = useParams()
 	const dispatch = useDispatch();
 	if (!id) return;
 	const question = questions[id];
 	if (!question) return;
-	// const authedUser = useSelector((state) => state.authedUser);
-	const authedUser = "sarahedo";
+	// const authedUser = "sarahedo";
 
 	const questionStatuts = filterVotedStatus(question, authedUser);
 

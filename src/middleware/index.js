@@ -4,4 +4,4 @@ import { applyMiddleware } from 'redux';
 import checkAuth from './checkAuth';
 
 
-export default applyMiddleware(thunk, logger);
+export default applyMiddleware(thunk, logger, checkAuth);
