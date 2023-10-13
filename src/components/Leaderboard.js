@@ -10,21 +10,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleReceiveUsers } from '../actions/users';
 import { useEffect } from 'react';
 
+const countQuestions = (questions) => {
+	const authorCounts = {};
+
+	for (let questionId in questions) {
+		const question = questions[questionId];
+		const author = question.author;
+
+		if (!authorCounts[author]) {
+			authorCounts[author] = 1;
+		} else {
+			authorCounts[author]++;
+		}
+	}
+	return authorCounts;
+}
+
+const sortUser = (users) => {
+	return users.sort((a, b) => (b.answers + b.created) - (a.answers + a.created))
+}
 
 export default function Leaderboard() {
 	const dispatch = useDispatch();
 	useEffect(() => dispatch(handleReceiveUsers()), [])
 	const users = useSelector((state) => state.users);
+	const questions = useSelector((state) => state.questions);
+
+	const authorCount = countQuestions(questions);
 
 	const transformUsers = (users) => {
 		return Object.values(users).map(user => ({
 			id: user.id,
-			votes: user.questions.length,
-			answers: Object.keys(user.answers).length
+			answers: Object.keys(user.answers).length,
+			// answers: Object.keys(user.answers).length
+			created: authorCount[user.id] ? authorCount[user.id] : 0
 		}));
 	}
 	const currUsers = transformUsers(users);
-
+	const sortedUsers = sortUser(currUsers);
 	// const rows = [
 	// 	createData('Frozen yoghurt', 159, 6.0),
 	// 	createData('Ice cream sandwich', 237, 9.0),
@@ -44,7 +67,7 @@ export default function Leaderboard() {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{currUsers.map((row) => (
+						{sortedUsers.map((row) => (
 							<TableRow
 								key={row.id}
 								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -52,8 +75,8 @@ export default function Leaderboard() {
 								<TableCell component="th" scope="row">
 									{row.id}
 								</TableCell>
-								<TableCell align="right">{row.votes}</TableCell>
 								<TableCell align="right">{row.answers}</TableCell>
+								<TableCell align="right">{row.created}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

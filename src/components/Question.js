@@ -9,6 +9,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { handleAnswerQuestions } from "../actions/questions";
+import { useNavigate } from "react-router-dom";
+
 
 const filterVotedStatus = (question, authedUser) => {
 	if (question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser))
@@ -17,6 +19,7 @@ const filterVotedStatus = (question, authedUser) => {
 }
 
 export default function QuestionCard(props) {
+	const navigate = useNavigate();
 	const questions = useSelector((state) => state.questions);
 	const authedUser = useSelector((state) => state.authedUser);
 
@@ -24,7 +27,7 @@ export default function QuestionCard(props) {
 	const dispatch = useDispatch();
 	if (!id) return;
 	const question = questions[id];
-	if (!question) return;
+	if (!question) return navigate('/dashboard');
 	// const authedUser = "sarahedo";
 
 	const questionStatuts = filterVotedStatus(question, authedUser);
@@ -32,6 +35,7 @@ export default function QuestionCard(props) {
 	const handleVote = (e) => {
 		const option = e.target.id;
 		dispatch(handleAnswerQuestions(authedUser, id, option));
+		navigate('/dashboard')
 	}
 	return (
 		<Fragment>

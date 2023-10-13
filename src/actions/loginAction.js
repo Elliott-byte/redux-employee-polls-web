@@ -2,6 +2,7 @@ import { _getUsers } from "../api/_DATA";
 import { setAuthedUser } from "./authedUser";
 
 export const LOGIN_ACTION = "LOGIN_ACTION";
+export const LOGOUT_ACTION = "LOGOUT_ACTION";
 
 export function handleLogin({ username, password }) {
 	return (dispatch) => {
@@ -19,4 +20,10 @@ export function handleLogin({ username, password }) {
 			}
 		});
 	};
+}
+
+export function logoutActon() {
+	return {
+		type: LOGOUT_ACTION
+	}
 }

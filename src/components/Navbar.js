@@ -3,6 +3,8 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { logoutActon } from '../actions/loginAction'
 
 const navigation = [
 	{ name: 'Home', href: '/dashboard', current: true },
@@ -16,6 +18,7 @@ function classNames(...classes) {
 
 export default function Navbar() {
 	const [navs, setNavs] = useState(navigation);
+	const dispatch = useDispatch();
 	const handleNavClick = (e) => {
 		const clickedKey = e.currentTarget.getAttribute('data-key');
 		const updatedNavigation = navigation.map((nav) => {
@@ -26,6 +29,10 @@ export default function Navbar() {
 			}
 		});
 		setNavs(updatedNavigation);
+	}
+	const handleLogoutClick = (e) => {
+		dispatch(logoutActon());
+		window.location.href = "/";
 	}
 	return (
 		<Disclosure as="nav" className="bg-gray-800">
@@ -105,6 +112,7 @@ export default function Navbar() {
 													<a
 														href="#"
 														className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+														onClick={handleLogoutClick}
 													>
 														Sign out
 													</a>

@@ -3,9 +3,11 @@ import { Divider, Typography, TextField, Button } from '@mui/material';
 import { useDispatch } from "react-redux";
 import { handleAddQuestion } from "../actions/questions";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 export default function NewQuestion() {
+	const navigate = useNavigate();
 	const [optionOne, setOptionOne] = useState("");
 	const [optionTwo, setOptionTwo] = useState("");
 	// console.log(optionOne);
@@ -14,10 +16,11 @@ export default function NewQuestion() {
 
 	const dispatch = useDispatch();
 	if (!authedUser) {
-		return;
+		return navigate('/dashboard');
 	}
 	const handleSubmit = () => {
 		dispatch(handleAddQuestion(optionOne, optionTwo, authedUser));
+		navigate('/dashboard')
 		setOptionOne("");
 		setOptionTwo("");
 	}

@@ -11,16 +11,19 @@ const filterUnvotedQuestions = (questions, authedUser) => {
 	return Object.values(questions).filter((question) => !question.optionOne.votes.includes(authedUser) && !question.optionTwo.votes.includes(authedUser));
 }
 
+const sortQuestions = (questions) => {
+	return Object.values(questions).sort((a, b) => b.timestamp - a.timestamp);
+}
 export default function Dashboard() {
 
 	const authedUser = useSelector((state) => state.authedUser);
 	// const authedUser = "sarahedo";
 
 	const questions = useSelector((state) => state.questions);
-	const pendingQuestions = filterUnvotedQuestions(questions, authedUser);
-	const finishedQuestions = filterVotedQuestions(questions, authedUser);
-	// console.log("pending", pendingQuestions);
-	// console.log("finished", finishedQuestions);
+	const sortedQuestions = sortQuestions(questions);
+
+	const pendingQuestions = filterUnvotedQuestions(sortedQuestions, authedUser);
+	const finishedQuestions = filterVotedQuestions(sortedQuestions, authedUser);
 
 	const dispatch = useDispatch();
 	useEffect(() => dispatch(handleQuestions()), [])
@@ -28,11 +31,8 @@ export default function Dashboard() {
 
 	return (
 		<>
-			<QuestionContainer title="New Questions" questions={pendingQuestions} />
-			{/* <Box display="flex" justifyContent="center" height="50vh"> */}
-			<QuestionContainer title="Done Questions" questions={finishedQuestions} />
-			{/* </Box> */}
-
+			<QuestionContainer title="Unanswered Questions" questions={pendingQuestions} />
+			<QuestionContainer title="Answered Questions" questions={finishedQuestions} />
 		</>
 	)
 }
