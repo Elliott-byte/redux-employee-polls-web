@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleReceiveUsers } from '../actions/users';
 import { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const countQuestions = (questions) => {
 	const authorCounts = {};
@@ -35,9 +36,16 @@ export default function Leaderboard() {
 	useEffect(() => dispatch(handleReceiveUsers()), [])
 	const users = useSelector((state) => state.users);
 	const questions = useSelector((state) => state.questions);
-
+	const authedUser = useSelector((state) => state.authedUser);
 	const authorCount = countQuestions(questions);
+	const navigate = useNavigate();
 
+	useEffect(
+		() => {
+			if (!authedUser) {
+				return navigate('/');
+			}
+		}, []);
 	const transformUsers = (users) => {
 		return Object.values(users).map(user => ({
 			id: user.id,

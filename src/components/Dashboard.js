@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleQuestions } from '../actions/questions';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 const notSelectableStyle = {
 	userSelect: 'none',
@@ -27,6 +29,9 @@ export default function Dashboard() {
 	const [activeChip, setActiveChip] = useState(true);
 	const authedUser = useSelector((state) => state.authedUser);
 	// const authedUser = "sarahedo";
+	const navigate = useNavigate();
+	const location = useLocation();
+
 
 	const questions = useSelector((state) => state.questions);
 	const sortedQuestions = sortQuestions(questions);
@@ -35,14 +40,18 @@ export default function Dashboard() {
 	const finishedQuestions = filterVotedQuestions(sortedQuestions, authedUser);
 
 	const dispatch = useDispatch();
-	useEffect(() => dispatch(handleQuestions()), [])
+	useEffect(() => {
+		if (!authedUser) {
+			navigate('/', { state: { from: location.pathname } })
+		} else { dispatch(handleQuestions()) }
+	}, [])
 
 
 	return (
 		<>
 			<Stack direction="row" spacing={1} display="flex" flexDirection="row" justifyContent="center" alignItems="center" paddingTop="20px" width="100%">
-				<Chip style={notSelectableStyle} label="Unanswered" variant={activeChip ? "outlined" : "filled"} onClick={(e) => setActiveChip(false)} />
-				<Chip style={notSelectableStyle} label="Answered" variant={!activeChip ? "outlined" : "filled"} onClick={(e) => setActiveChip(true)} />
+				<Chip style={notSelectableStyle} label="Unanswered" variant={!activeChip ? "outlined" : "filled"} onClick={(e) => setActiveChip(true)} />
+				<Chip style={notSelectableStyle} label="Answered" variant={activeChip ? "outlined" : "filled"} onClick={(e) => setActiveChip(false)} />
 			</Stack>
 			{activeChip ? <QuestionContainer questions={pendingQuestions} /> : <QuestionContainer questions={finishedQuestions} />}
 

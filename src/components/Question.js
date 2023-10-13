@@ -10,7 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { handleAnswerQuestions } from "../actions/questions";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
 
 const filterVotedStatus = (question, authedUser) => {
 	if (question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser))
@@ -25,10 +25,19 @@ export default function QuestionCard(props) {
 
 	const { id } = useParams()
 	const dispatch = useDispatch();
-	if (!id) return;
 	const question = questions[id];
-	if (!question) return navigate('/dashboard');
+
 	// const authedUser = "sarahedo";
+	useEffect(() => {
+		if (!id || !Object.keys(questions).includes(id)) {
+			navigate('/NotFound');
+		}
+	}, [id, questions, navigate]);
+
+	if (!id || !Object.keys(questions).includes(id)) {
+		return null;  // 或者返回一个错误消息、加载指示器等。
+	}
+
 
 	const questionStatuts = filterVotedStatus(question, authedUser);
 

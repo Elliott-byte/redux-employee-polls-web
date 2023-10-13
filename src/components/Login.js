@@ -1,18 +1,21 @@
 import { useDispatch } from "react-redux"
 import { handleLogin } from "../actions/loginAction";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from "react";
 
 export default function Login() {
 	const [errMessage, setErrMessage] = useState('  ');
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
+
+	const from = location.state?.from || '/dashboard';
 	const handleSignin = (e) => {
 		e.preventDefault();
 		const userName = document.getElementById('user').value;
 		const password = document.getElementById('password').value;
 		dispatch(handleLogin({ username: userName, password })).then(() => {
-			navigate('/dashboard');
+			navigate(from);
 			setErrMessage('');
 		}).catch((error) => {
 			setErrMessage(error);

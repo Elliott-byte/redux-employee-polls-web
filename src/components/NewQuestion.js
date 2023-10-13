@@ -1,9 +1,9 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Divider, Typography, TextField, Button } from '@mui/material';
 import { useDispatch } from "react-redux";
 import { handleAddQuestion } from "../actions/questions";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 export default function NewQuestion() {
@@ -15,9 +15,13 @@ export default function NewQuestion() {
 	// const authedUser = "sarahedo";
 
 	const dispatch = useDispatch();
-	if (!authedUser) {
-		return navigate('/dashboard');
-	}
+	const location = useLocation();
+	useEffect(
+		() => {
+			if (!authedUser) {
+				return navigate('/', { state: { from: location.pathname } });
+			}
+		}, []);
 	const handleSubmit = () => {
 		dispatch(handleAddQuestion(optionOne, optionTwo, authedUser));
 		navigate('/dashboard')
