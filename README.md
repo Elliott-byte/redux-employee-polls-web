@@ -9,4 +9,4 @@ The HR department has requested a web application to enhance collaboration and t
   `npm run start`
 
 - How to test?
-  `npm run teest`
+  `npm run test`
